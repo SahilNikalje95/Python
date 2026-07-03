@@ -1,0 +1,453 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/SahilNikalje95/Python/blob/main/Practical_1.ipynb%20SC\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "id": "3add840d",
+      "metadata": {
+        "id": "3add840d"
+      },
+      "outputs": [],
+      "source": [
+        "# Define the McCulloch-Pitts neuron function\n",
+        "\n",
+        "def mcp_neuron(inputs, weights, threshold):\n",
+        "    \"\"\"\n",
+        "    Simulates a McCulloch-Pitts neuron.\n",
+        "\n",
+        "    Parameters:\n",
+        "    inputs    : list of binary input values (0 or 1)\n",
+        "    weights   : list of weights corresponding to inputs\n",
+        "    threshold : numeric value for the neuron to fire\n",
+        "\n",
+        "    Returns:\n",
+        "    1 if weighted sum >= threshold, else 0\n",
+        "    \"\"\"\n",
+        "    # Multiply each input by its corresponding weight and sum the results\n",
+        "    total = sum(w * x for w, x in zip(weights, inputs))\n",
+        "\n",
+        "    # Compare sum to threshold and return binary output\n",
+        "    return 1 if total >= threshold else 0\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "id": "fdf9c23a",
+      "metadata": {
+        "id": "fdf9c23a"
+      },
+      "outputs": [],
+      "source": [
+        "# AND Gate using McCulloch-Pitts neuron\n",
+        "def AND_gate(a, b):\n",
+        "    \"\"\"\n",
+        "    Implements AND logic gate using MCP neuron.\n",
+        "    Inputs:\n",
+        "    a, b : binary values (0 or 1)\n",
+        "    Logic:\n",
+        "    - Weights: [1, 1]\n",
+        "    - Threshold: 2\n",
+        "    Only fires (returns 1) when both inputs are 1.\n",
+        "    \"\"\"\n",
+        "    weights = [1, 1]\n",
+        "    threshold = 2\n",
+        "    return mcp_neuron([a, b], weights, threshold)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "id": "4f3f1047",
+      "metadata": {
+        "id": "4f3f1047"
+      },
+      "outputs": [],
+      "source": [
+        "# OR Gate using McCulloch-Pitts neuron\n",
+        "def OR_gate(a, b):\n",
+        "    \"\"\"\n",
+        "    Implements OR logic gate using MCP neuron.\n",
+        "    Inputs:\n",
+        "    a, b : binary values (0 or 1)\n",
+        "    Logic:\n",
+        "    - Weights: [1, 1]\n",
+        "    - Threshold: 1\n",
+        "    Fires if at least one input is 1.\n",
+        "    \"\"\"\n",
+        "    weights = [1, 1]\n",
+        "    threshold = 1\n",
+        "    return mcp_neuron([a, b], weights, threshold)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 4,
+      "id": "6a6c6c29",
+      "metadata": {
+        "id": "6a6c6c29"
+      },
+      "outputs": [],
+      "source": [
+        "# NOT Gate using McCulloch-Pitts neuron\n",
+        "def NOT_gate(a):\n",
+        "    \"\"\"\n",
+        "    Implements NOT logic gate using MCP neuron.\n",
+        "    Input:\n",
+        "    a : binary value (0 or 1)\n",
+        "    Logic:\n",
+        "    - Weight: [-1]\n",
+        "    - Threshold: 0\n",
+        "    Inverts the input.\n",
+        "    \"\"\"\n",
+        "    weights = [-1]\n",
+        "    threshold = 0\n",
+        "    return mcp_neuron([a], weights, threshold)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 5,
+      "id": "f047b6cb",
+      "metadata": {
+        "id": "f047b6cb",
+        "outputId": "1698f9cb-f85d-4960-a99e-6686a21f39dc",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "AND Gate Truth Table:\n",
+            "0 AND 0 = 0\n",
+            "0 AND 1 = 0\n",
+            "1 AND 0 = 0\n",
+            "1 AND 1 = 1\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Test all gates with input combinations and display the results\n",
+        "\n",
+        "# AND Gate Truth Table\n",
+        "print(\"AND Gate Truth Table:\")\n",
+        "for a in [0, 1]:\n",
+        "    for b in [0, 1]:\n",
+        "        result = AND_gate(a, b)\n",
+        "        print(f\"{a} AND {b} = {result}\")\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 6,
+      "id": "e31a9032",
+      "metadata": {
+        "id": "e31a9032",
+        "outputId": "6dcc182c-8256-4a73-c172-38e7b2a7b7af",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "OR Gate Truth Table:\n",
+            "0 OR 0 = 0\n",
+            "0 OR 1 = 1\n",
+            "1 OR 0 = 1\n",
+            "1 OR 1 = 1\n"
+          ]
+        }
+      ],
+      "source": [
+        "# OR Gate Truth Table\n",
+        "print(\"\\nOR Gate Truth Table:\")\n",
+        "for a in [0, 1]:\n",
+        "    for b in [0, 1]:\n",
+        "        result = OR_gate(a, b)\n",
+        "        print(f\"{a} OR {b} = {result}\")\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 7,
+      "id": "e94f4fcb",
+      "metadata": {
+        "id": "e94f4fcb",
+        "outputId": "7f7da3ad-b7c5-4a1e-a0aa-08ea4bde451c",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "NOT Gate Truth Table:\n",
+            "NOT 0 = 1\n",
+            "NOT 1 = 0\n"
+          ]
+        }
+      ],
+      "source": [
+        "# NOT Gate Truth Table\n",
+        "print(\"\\nNOT Gate Truth Table:\")\n",
+        "for a in [0, 1]:\n",
+        "    result = NOT_gate(a)\n",
+        "    print(f\"NOT {a} = {result}\")\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "id": "954c487f",
+      "metadata": {
+        "id": "954c487f"
+      },
+      "source": [
+        "#### program for three inputs"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 8,
+      "id": "09790059",
+      "metadata": {
+        "id": "09790059"
+      },
+      "outputs": [],
+      "source": [
+        "# McCulloch-Pitts Neuron for 3-input Logic Gates\n",
+        "\n",
+        "def mcp_neuron(inputs, weights, threshold):\n",
+        "    \"\"\"\n",
+        "    Simulates a McCulloch-Pitts neuron with 3 inputs.\n",
+        "\n",
+        "    Parameters:\n",
+        "    inputs    : list of 3 binary input values\n",
+        "    weights   : list of weights\n",
+        "    threshold : neuron firing threshold\n",
+        "\n",
+        "    Returns:\n",
+        "    Binary output: 1 (fire) or 0 (no fire)\n",
+        "    \"\"\"\n",
+        "    total = sum(w * x for w, x in zip(weights, inputs))\n",
+        "    return 1 if total >= threshold else 0\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 9,
+      "id": "02acaabd",
+      "metadata": {
+        "id": "02acaabd"
+      },
+      "outputs": [],
+      "source": [
+        "def AND_gate_3(a, b, c):\n",
+        "    \"\"\"\n",
+        "    Implements 3-input AND gate using MCP neuron.\n",
+        "    Fires only when all three inputs are 1.\n",
+        "\n",
+        "    Weights = [1, 1, 1]\n",
+        "    Threshold = 3\n",
+        "    \"\"\"\n",
+        "    weights = [1, 1, 1]\n",
+        "    threshold = 3\n",
+        "    return mcp_neuron([a, b, c], weights, threshold)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 10,
+      "id": "6acabdfc",
+      "metadata": {
+        "id": "6acabdfc"
+      },
+      "outputs": [],
+      "source": [
+        "def OR_gate_3(a, b, c):\n",
+        "    \"\"\"\n",
+        "    Implements 3-input OR gate using MCP neuron.\n",
+        "    Fires when at least one input is 1.\n",
+        "\n",
+        "    Weights = [1, 1, 1]\n",
+        "    Threshold = 1\n",
+        "    \"\"\"\n",
+        "    weights = [1, 1, 1]\n",
+        "    threshold = 1\n",
+        "    return mcp_neuron([a, b, c], weights, threshold)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 11,
+      "id": "014f3d6d",
+      "metadata": {
+        "id": "014f3d6d"
+      },
+      "outputs": [],
+      "source": [
+        "def NOT_gate(a):\n",
+        "    \"\"\"\n",
+        "    Implements NOT gate for a single input using MCP neuron.\n",
+        "    Inverts the input.\n",
+        "\n",
+        "    Weight = [-1]\n",
+        "    Threshold = 0\n",
+        "    \"\"\"\n",
+        "    weights = [-1]\n",
+        "    threshold = 0\n",
+        "    return mcp_neuron([a], weights, threshold)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 12,
+      "id": "16328b74",
+      "metadata": {
+        "id": "16328b74",
+        "outputId": "2b870757-f715-422c-a75e-3b4e9e8f0d8e",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "3-Input AND Gate Truth Table:\n",
+            "0 AND 0 AND 0 = 0\n",
+            "0 AND 0 AND 1 = 0\n",
+            "0 AND 1 AND 0 = 0\n",
+            "0 AND 1 AND 1 = 0\n",
+            "1 AND 0 AND 0 = 0\n",
+            "1 AND 0 AND 1 = 0\n",
+            "1 AND 1 AND 0 = 0\n",
+            "1 AND 1 AND 1 = 1\n"
+          ]
+        }
+      ],
+      "source": [
+        "from itertools import product\n",
+        "\n",
+        "# Test 3-input AND Gate\n",
+        "print(\"3-Input AND Gate Truth Table:\")\n",
+        "for a, b, c in product([0, 1], repeat=3):\n",
+        "    result = AND_gate_3(a, b, c)\n",
+        "    print(f\"{a} AND {b} AND {c} = {result}\")\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 13,
+      "id": "160e4ff7",
+      "metadata": {
+        "id": "160e4ff7",
+        "outputId": "92bf3fe6-bfd1-40e6-e689-52afc8bcfa87",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "3-Input OR Gate Truth Table:\n",
+            "0 OR 0 OR 0 = 0\n",
+            "0 OR 0 OR 1 = 1\n",
+            "0 OR 1 OR 0 = 1\n",
+            "0 OR 1 OR 1 = 1\n",
+            "1 OR 0 OR 0 = 1\n",
+            "1 OR 0 OR 1 = 1\n",
+            "1 OR 1 OR 0 = 1\n",
+            "1 OR 1 OR 1 = 1\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Test 3-input OR Gate\n",
+        "print(\"\\n3-Input OR Gate Truth Table:\")\n",
+        "for a, b, c in product([0, 1], repeat=3):\n",
+        "    result = OR_gate_3(a, b, c)\n",
+        "    print(f\"{a} OR {b} OR {c} = {result}\")\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 14,
+      "id": "899e4c38",
+      "metadata": {
+        "id": "899e4c38",
+        "outputId": "f9d22882-e221-4567-e8ca-4418af2bd36b",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "NOT Gate Truth Table:\n",
+            "NOT 0 = 1\n",
+            "NOT 1 = 0\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Test NOT Gate (only needs 1 input)\n",
+        "print(\"\\nNOT Gate Truth Table:\")\n",
+        "for a in [0, 1]:\n",
+        "    result = NOT_gate(a)\n",
+        "    print(f\"NOT {a} = {result}\")\n"
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3 (ipykernel)",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.12.3"
+    },
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
